@@ -1,4 +1,3 @@
-
 *.log
 /.idea
 /resources/account_data/data_backup
@@ -9,7 +8,7 @@
 /resources/account_data/orders
 /resources/account_data/account
 /testing
-/mw_minisoft/trade_lib/strategy_builder
-/mw_minisoft/trade_lib/tech_indicator
-/mw_minisoft/trade_lib/session_builder
+/mw_srv_trade/trade_lib/strategy_builder
+/mw_srv_trade/trade_lib/tech_indicator
+/mw_srv_trade/trade_lib/session_builder
 
