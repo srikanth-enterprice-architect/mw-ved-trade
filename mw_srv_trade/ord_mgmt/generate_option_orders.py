@@ -3,7 +3,7 @@ from datetime import timedelta
 import numpy as np
 import pandas as pd
 
-from mw_srv_trade.messaging_channel.teligram_channel import *
+from mw_srv_trade.msg_notify_chans.tg_msg_chan_builder import *
 from mw_srv_trade.trade_lib.tech_indicator.super_trend_builder import super_trend
 
 cus_logger.setLevel(10)

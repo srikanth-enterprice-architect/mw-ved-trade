@@ -1,7 +1,7 @@
 from os import path
 
-from mw_srv_trade.order_management.order_buy_sell_operations import *
-from mw_srv_trade.persistence_operations.account_management import *
+from mw_srv_trade.ord_mgmt.order_buy_sell_operations import *
+from mw_srv_trade.persist_ops.account_management import *
 from mw_srv_trade.trade_lib.session_builder.retrive_request_token import generate_user_session
 
 cus_logger.setLevel(10)

@@ -1,4 +1,4 @@
-from mw_srv_trade.persistence_operations.account_management import *
+from mw_srv_trade.persist_ops.account_management import *
 
 cus_logger.setLevel(10)
 

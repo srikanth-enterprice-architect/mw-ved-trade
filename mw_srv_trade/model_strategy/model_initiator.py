@@ -1,6 +1,6 @@
 from mw_srv_trade.constants.file_constants import *
 from mw_srv_trade.mk_data_ops.data_read_write_ops import write_data_file, read_data_file
-from mw_srv_trade.persistence_operations.account_management import ticks_indi, market_status
+from mw_srv_trade.persist_ops.account_management import ticks_indi, market_status
 from mw_srv_trade.trade_lib.strategy_builder.strategy_builder import strategy_data_builder_
 
 from mw_srv_trade.trade_logger.logger import cus_logger

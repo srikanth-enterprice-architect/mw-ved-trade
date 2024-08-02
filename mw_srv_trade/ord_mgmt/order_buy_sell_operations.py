@@ -1,5 +1,5 @@
 import pandas as pd
-from mw_srv_trade.common_operatinos.common_ops import multi_order_qty_normal_original
+from mw_srv_trade.comm_ops.common_ops import multi_order_qty_normal_original
 from mw_srv_trade.constants.file_constants import AUTO_INPUTS_FILE
 from mw_srv_trade.trade_logger.logger import cus_logger
 

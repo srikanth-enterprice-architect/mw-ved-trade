@@ -3,7 +3,7 @@ from datetime import date, timedelta
 
 import pandas as pd
 
-from mw_srv_trade.common_operatinos.common_ops import super_user_session
+from mw_srv_trade.comm_ops.common_ops import super_user_session
 from mw_srv_trade.constants.file_constants import ACCOUNTS_FOLDER
 from mw_srv_trade.mk_data_ops.data_feed_fetch import data_from_url
 from mw_srv_trade.trade_logger.logger import cus_logger

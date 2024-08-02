@@ -1,7 +1,7 @@
 import pandas as pd
 
 from mw_srv_trade.constants.file_constants import FIREFOX_DRIVER_PATH
-from mw_srv_trade.persistence_operations.account_management import read_user_info
+from mw_srv_trade.persist_ops.account_management import read_user_info
 from mw_srv_trade.trade_lib.session_builder.retrive_request_token import create_user_session
 
 

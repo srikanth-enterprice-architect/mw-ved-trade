@@ -1,8 +1,8 @@
 import os
 import sys
 
-from mw_srv_trade.order_management.order_management__ce_pe import *
-from mw_srv_trade.persistence_operations.account_management import *
+from mw_srv_trade.ord_mgmt.order_management__ce_pe import *
+from mw_srv_trade.persist_ops.account_management import *
 
 
 def user_positions(holding_position_symbol):
