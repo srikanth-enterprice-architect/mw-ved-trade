@@ -2,8 +2,9 @@ import os
 import shutil
 import sys
 
-from mw_srv_trade.historical_feed.historical_feed import *
+from mw_srv_trade.mk_data_ops.data_feed_fetch import *
 from mw_srv_trade.instruments_operations.instrument_read_write_operations import download_write_instrument_tokens
+from mw_srv_trade.model_strategy.model_initiator import model_indicator_data_generator
 from mw_srv_trade.order_management.generate_strategy_orders import storage_regular_orders
 from mw_srv_trade.persistence_operations.account_management import *
 from mw_srv_trade.trade_lib.session_builder.retrive_request_token import generate_user_session

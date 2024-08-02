@@ -1,5 +1,5 @@
 from mw_srv_trade.common_operatinos.common_ops import super_user_session, multi_order_qty_normal_order
-from mw_srv_trade.historical_feed.historical_feed import read_data_file
+from mw_srv_trade.mk_data_ops.data_read_write_ops import read_data_file
 from mw_srv_trade.messaging_channel.teligram_channel import *
 from mw_srv_trade.order_management.order_management__ce_pe import place_instrument_orders
 from mw_srv_trade.trade_lib.strategy_builder.strategy_builder_common import exit_entry_time
