@@ -89,10 +89,10 @@ def sent_telegram_message(day_instrument_orders):
     chat_id = '@algo_day_open'
     telegram_message_txt = str(day_instrument_orders.to_string())
     telegram_message = {'chat_id': chat_id, 'text': telegram_message_txt, 'parse_mode': 'html'}
-    response = requests.post(api_telegram_url, json=telegram_message)
+    #response = requests.post(api_telegram_url, json=telegram_message)
     # if (day_instrument_orders.strategy_name == 'day_open_strategy') and ('BANK' in day_instrument_orders['instrument name']):
     # sent_other_telegram(api_telegram_url, day_instrument_orders)
-    cus_logger.info(response.text)
+    #cus_logger.info(response.text)
 
 
 def sent_postman_req(day_instrument_orders):

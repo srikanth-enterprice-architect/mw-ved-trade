@@ -20,7 +20,8 @@ def read_instrument_tokens(instrument, strike_price, signal, exchange, expiry_da
 
         if (signal == 'BUY') or ('up' in signal):
             inst_option_type_filter = inst_filtered[inst_filtered['option_type_1'] == 'CE']
-            inst_option_type_filter['strike_price'] = inst_option_type_filter['strike_price'].astype(float)
+            # inst_option_type_filter['strike_price'] = inst_option_type_filter['strike_price'].astype(float)
+            inst_option_type_filter = inst_option_type_filter.astype({'strike_price': float})
             inst_option_type_filter = inst_option_type_filter.sort_values(by=['strike_price'], ascending=True)
             strike_price_filter = strike_price['low_price'] + inst_file_filtered.strike_price_position.values[0]
             price_filter_greater = inst_option_type_filter['strike_price'] >= strike_price_filter
@@ -29,7 +30,8 @@ def read_instrument_tokens(instrument, strike_price, signal, exchange, expiry_da
 
         elif (signal == 'SELL') or ('down' in signal):
             inst_option_type_filter = inst_filtered[inst_filtered['option_type_1'] == 'PE']
-            inst_option_type_filter['strike_price'] = inst_option_type_filter['strike_price'].astype(float)
+            # inst_option_type_filter['strike_price'] = inst_option_type_filter['strike_price'].astype(float)
+            inst_option_type_filter = inst_option_type_filter.astype({'strike_price': float})
             inst_option_type_filter = inst_option_type_filter.sort_values(by=['strike_price'], ascending=False)
             strike_price_filter = (strike_price['high_price'] + inst_file_filtered.strike_price_position.values[0])
             price_filter_less = inst_option_type_filter['strike_price'] <= strike_price_filter

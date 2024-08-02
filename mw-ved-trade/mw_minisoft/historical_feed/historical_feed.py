@@ -75,9 +75,9 @@ def download_data_url(ticks, interval, from_date, today, resource_path, kite_ses
             df['date'] = (pd.to_datetime(df['date'], unit='s')).dt.tz_localize('utc').dt.tz_convert('Asia/kolkata')
             cus_logger.info("Last Record From new data set %s", str(pd.to_datetime(df.iloc[-1].date).time()))
             instrument_history_data = df[df['date'] < dt.datetime.now().strftime('%Y-%m-%d %H:%M:00')]
-            instrument_history_data = instrument_history_data[
-                instrument_history_data.date > (instrument_backup_data.iloc[-1].date)]
-            instrument_backup_data = instrument_backup_data.append(instrument_history_data)
+            instrument_history_data = instrument_history_data[instrument_history_data.date > instrument_backup_data.iloc[-1].date]
+            #instrument_backup_data = instrument_backup_data.append(instrument_history_data)
+            instrument_backup_data = pd.concat([instrument_backup_data, instrument_history_data], ignore_index=True)
             instrument_backup_data.to_csv(backup_file, index=False)
             write_data_file(ticks, instrument_backup_data.tail(600), resource_path, interval)
     except Exception as exceptionMessage:
