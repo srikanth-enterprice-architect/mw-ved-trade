@@ -1,14 +1,15 @@
 
 *.log
-/mw-ved-trade/.idea
-/mw-ved-trade/resources/account_data/data_backup
-/mw-ved-trade/resources/account_data/userOrders
-/mw-ved-trade/resources/instruments
-/mw-ved-trade/resources/account_data/ticks
-/mw-ved-trade/resources/telegram
-/mw-ved-trade/resources/account_data/orders
-/mw-ved-trade/resources/account_data/account
-/mw-ved-trade/testing
-/mw-ved-trade/mw_minisoft/trade_lib/strategy_builder
-/mw-ved-trade/mw_minisoft/trade_lib/tech_indicator
-/mw-ved-trade/mw_minisoft/trade_lib/session_builder
+/.idea
+/resources/account_data/data_backup
+/resources/account_data/userOrders
+/resources/instruments
+/resources/account_data/ticks
+/resources/telegram
+/resources/account_data/orders
+/resources/account_data/account
+/testing
+/mw_minisoft/trade_lib/strategy_builder
+/mw_minisoft/trade_lib/tech_indicator
+/mw_minisoft/trade_lib/session_builder
+
