@@ -5,7 +5,7 @@ import pandas as pd
 
 from mw_srv_trade.comm_ops.common_ops import super_user_session
 from mw_srv_trade.constants.file_constants import ACCOUNTS_FOLDER
-from mw_srv_trade.mk_data_ops.data_feed_fetch import data_from_url
+from mw_srv_trade.mk_data_ops.data_feed_fetch import data_fetch_retailer
 from mw_srv_trade.trade_logger.logger import cus_logger
 
 
@@ -56,7 +56,7 @@ def get_day_high_low(sp_user_session, ticks_info_record):
     from_date = (date.today()) - timedelta(days=5)
     to_date = date.today()
     ticks = ticks_info_record.inst_segment + ':' + ticks_info_record.inst_data_name + '-INDEX'
-    response = data_from_url(ticks, '1', from_date, to_date, sp_user_session)
+    response = data_fetch_retailer(ticks, '1', from_date, to_date, sp_user_session)
     df = pd.DataFrame(response['candles'], columns=['date', 'open', 'high', 'low', 'close', 'volume'])
     df['date'] = (pd.to_datetime(df['date'], unit='s')).dt.tz_localize('utc').dt.tz_convert('Asia/kolkata')
     cus_logger.info("Last Record From new data set %s", str(pd.to_datetime(df.iloc[-1].date).time()))

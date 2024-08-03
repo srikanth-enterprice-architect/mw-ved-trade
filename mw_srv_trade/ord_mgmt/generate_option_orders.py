@@ -34,18 +34,16 @@ def get_option_direction_df(inst_records):
     direction = 'down'
     for instr_days_record_position, instr_days_record in inst_records.iloc[3:].iterrows():
         previous_record = inst_records.iloc[instr_days_record_position - 1]
-        current_record = inst_records.iloc[instr_days_record_position]
-        if previous_record.super_trend_direction_7_3 != current_record.super_trend_direction_7_3:
-            if current_record.super_trend_direction_7_3 == 'up':
-                inst_records_orders = inst_records_orders.append(current_record)
+        current_record = inst_records.iloc[[instr_days_record_position]]
+        if previous_record.super_trend_direction_7_3 != current_record.iloc[-1].super_trend_direction_7_3:
+            if current_record.iloc[-1].super_trend_direction_7_3 == 'up':
+                inst_records_orders = pd.concat([inst_records_orders, current_record], ignore_index=True)
     inst_records_orders = inst_records_orders[inst_records_orders.date_on == inst_records_unique_dates.iloc[-1].days]
     if inst_records_orders.shape[0] > 0:
         inst_records_order_min_dir = inst_records_orders.close.min()
         if inst_records.iloc[-1].close > inst_records_order_min_dir:
             direction = 'up'
     return direction
-
-
 
 
 def download_data(ticks, interval, from_date, today, kite_session):
