@@ -1,4 +1,6 @@
 from mw_srv_trade.persist_ops.account_management import *
+from mw_srv_trade.persist_ops.account_management import read_user_info
+from mw_srv_trade.trade_lib.session_builder.retrive_request_token import generate_user_session
 
 cus_logger.setLevel(10)
 
@@ -35,3 +37,13 @@ def running_quant(instrument_trading_symbol, buy_price, current_price, apikey):
     ticks_ind_excel_data.to_csv(TICKS_IND_FILE, index=False)
 
     return ticks_ind_excel_data
+
+
+def write_user_positions():
+    user_info_df = pd.DataFrame(read_user_info())
+    for idx_user_info, user_info in user_info_df.iterrows():
+        kite_session = generate_user_session(user_info)
+        net_positions = pd.DataFrame(kite_session.positions()['netPositions'])
+        positions_file_name = USER_ORDERS_POSITIONS_ + str(
+            user_info['name']) + '_' + user_info.user_id + '_net_positions.csv'
+        net_positions.to_csv(positions_file_name)

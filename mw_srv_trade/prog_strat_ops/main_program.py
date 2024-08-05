@@ -2,11 +2,12 @@ import os
 import shutil
 import sys
 
-from mw_srv_trade.mk_data_ops.data_feed_fetch import *
 from mw_srv_trade.instr_ops.instrument_read_write_operations import download_write_instrument_tokens
-from mw_srv_trade.model_strategy.model_initiator import model_indicator_data_generator
-from mw_srv_trade.ord_mgmt.generate_strategy_orders import storage_regular_orders
+from mw_srv_trade.mk_data_ops.data_feed_fetch import generate_historical_data
+from mw_srv_trade.model_builder.model_initiator import model_indicator_data_generator
+from mw_srv_trade.ord_decision_maker.order_option_strat_mgt import option_strat_decision_maker
 from mw_srv_trade.persist_ops.account_management import *
+from mw_srv_trade.strat_decision_maker.strategy_maker import storage_regular_orders
 from mw_srv_trade.trade_lib.session_builder.retrive_request_token import generate_user_session
 from mw_srv_trade.trade_logger.logger import cus_logger
 
@@ -46,10 +47,10 @@ def strategy_execution_steps(auto_inputs):
     the order management process will begin.
     """
     # user_account_balance()
-    generate_historical_data(auto_inputs)
-    model_indicator_data_generator(auto_inputs)
-    storage_regular_orders(auto_inputs)
-    # place_regular_orders(auto_inputs)
+    #generate_historical_data(auto_inputs)
+    #model_indicator_data_generator(auto_inputs)
+    #storage_regular_orders(auto_inputs)
+    option_strat_decision_maker(auto_inputs)
     # write_user_positions()
 
 
