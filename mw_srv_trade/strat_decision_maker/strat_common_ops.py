@@ -52,9 +52,9 @@ def inst_order_preparation(file_exists, inst_last_record_dir, inst_order_file_na
         inst_order_data = pd.read_csv(inst_order_file_name)
         inst_order_data = pd.concat([inst_order_data, inst_order_record_.tail(1)], ignore_index=True)
         inst_order_data.to_csv(inst_order_file_name, index=False)
-        auto_inputs = pd.read_csv(AUTO_INPUTS_FILE)
-        send_to_telegram(inst_record, inst_last_record_dir, sp_user_session, inst_order_record, strategy_name)
-        place_instrument_orders(auto_inputs, inst_record)
+        #auto_inputs = pd.read_csv(AUTO_INPUTS_FILE)
+        #send_to_telegram(inst_record, inst_last_record_dir, sp_user_session, inst_order_record, strategy_name)
+        #place_instrument_orders(auto_inputs, inst_record)
         cus_logger.info('appended the new position order into the file')
     elif (not file_exists) and ('entry' in inst_last_record_dir):
         inst_order_record = create_inst_order_record(inst_record, inst_last_record_dir,
@@ -63,9 +63,9 @@ def inst_order_preparation(file_exists, inst_last_record_dir, inst_order_file_na
 
         strategy_builder_orders = pd.concat([strategy_builder_orders, inst_order_record], ignore_index=True)
         strategy_builder_orders.to_csv(inst_order_file_name, index=False)
-        auto_inputs = pd.read_csv(AUTO_INPUTS_FILE)
-        send_to_telegram(inst_record, inst_last_record_dir, sp_user_session, inst_order_record, strategy_name)
-        place_instrument_orders(auto_inputs, inst_record)
+        #auto_inputs = pd.read_csv(AUTO_INPUTS_FILE)
+        #send_to_telegram(inst_record, inst_last_record_dir, sp_user_session, inst_order_record, strategy_name)
+        #place_instrument_orders(auto_inputs, inst_record)
         cus_logger.info('created new position order file')
 
 
