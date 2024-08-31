@@ -12,3 +12,4 @@
 /mw_srv_trade/app_common_trade_lib/session_builder
 
 *.csv
+/.tmp.driveupload
