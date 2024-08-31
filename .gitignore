@@ -7,7 +7,6 @@
 /resources/telegram
 /resources/account_data/orders
 /resources/account_data/account
-/testing
 /mw_srv_trade/app_common_trade_lib/strategy_builder
 /mw_srv_trade/app_common_trade_lib/tech_indicator
 /mw_srv_trade/app_common_trade_lib/session_builder
