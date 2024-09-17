@@ -19,6 +19,19 @@ def ticks_indi_file_update():
     ticks_indi_file.to_csv('resources/account_data/ticks_indi.csv', index=False)
 
 
+def ticks_indi_file_qty_update():
+    trade_inst = pd.read_csv('resources/account_data/ticks_indi.csv')
+    instruments = pd.read_csv(INSTRUMENTS_DATA_FILE, low_memory=False)
+    for trade_inst_index, trade_inst_record in trade_inst.iterrows():
+        inst_name = trade_inst_record.instrument_name.split(":")[1]
+        inst_flt_ul_sym = instruments[instruments['Underlying symbol'] == inst_name]
+        inst_flt_opt_type = inst_flt_ul_sym[~inst_flt_ul_sym['Option type'].isin(['CE', 'PE'])].iloc[-1]
+        inst_lot_size = inst_flt_opt_type['Minimum lot size']
+        trade_inst.loc[trade_inst_index, 'default_quantity'] = inst_lot_size
+        trade_inst.loc[trade_inst_index, 'running_quantity'] = inst_lot_size
+    trade_inst.to_csv('resources/account_data/ticks_indi.csv', index=False)
+
+
 def trade_ready_instruments_df():
     """
     instruments data will read and send as dataframe

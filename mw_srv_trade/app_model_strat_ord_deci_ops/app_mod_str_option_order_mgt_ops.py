@@ -1,7 +1,6 @@
 import datetime
 from datetime import date, timedelta
 from os import path
-
 import numpy as np
 
 from mw_srv_trade.app_common_ops.app_common_inst_down_filter_read_write_ops import read_instrument_tokens
@@ -12,6 +11,11 @@ from mw_srv_trade.app_common_trade_lib.strategy_builder.super_log_buy_sell_strat
 from mw_srv_trade.app_common_trade_lib.tech_indicator.super_trend_builder import super_trend
 from mw_srv_trade.app_common_trade_logger.logger import cus_logger
 from mw_srv_trade.app_msg_notify_chans_ops.org_msg_prep import *
+from datetime import datetime
+
+from mw_srv_trade.app_common_trade_lib.strategy_builder.strategy_builder_common import exit_entry_time
+from mw_srv_trade.app_common_trade_lib.tech_indicator.app_com_tech_indi import *
+from mw_srv_trade.app_common_trade_lib.tech_indicator.super_trend_builder import super_trend
 
 cus_logger.setLevel(10)
 
@@ -34,7 +38,7 @@ def inst_model_strategy_option_order_decision_maker(auto_inputs):
                 inst_opt_ord_global_obj['strategy_name'] = strategy_name
                 inst_opt_ord_global_obj['inst_model_record'] = trade_ready_inst_record
                 inst_opt_ord_global_obj['auto_inputs'] = auto_inputs
-                #strategy_order_decision_maker(inst_opt_ord_global_obj, sp_user_ses)
+                # strategy_order_decision_maker(inst_opt_ord_global_obj, sp_user_ses)
             elif trade_ready_inst_record.start_name == "day_open_strategy":
                 inst_opt_ord_global_obj['strategy_name'] = strategy_name
                 inst_opt_ord_global_obj['trade_ready_inst_record'] = trade_ready_inst_record
@@ -69,8 +73,14 @@ def option_strategy_order_preparation(inst_opt_ord_global_obj, sp_user_ses):
                     gen_ord_inst_entry_type = inst_mod_str_gen_ord_flt_exit_.iloc[-1].inst_entry_type
                     if opt_ord_inst_entry_type != gen_ord_inst_entry_type:
                         inst_model_str_opt_ord_file_exit_ops(inst_opt_ord_global_obj, sp_user_ses)
-                    elif opt_ord_inst_entry_type != gen_ord_inst_entry_type:
-                        print("fresh order is not available")
+                    elif opt_ord_inst_entry_type == gen_ord_inst_entry_type:
+                        opt_ord_inst_entry_type = inst_model_str_opt_ord_file_exit_.iloc[-1].inst_option_entry_type
+                        default_time_frame = get_option_direction(opt_ord_inst_entry_type, sp_user_ses)
+                        default_time_frame = inst_opt_ord_str(default_time_frame)
+                        if default_time_frame.iloc[-1]['inst_opt_deci_mak'] != 'up_entry':
+                            inst_model_str_opt_ord_file_exit_ops(inst_opt_ord_global_obj, sp_user_ses)
+                        else:
+                            print("fresh order is not available")
                 elif inst_model_str_opt_ord_file_exit_.size == 0:
                     create_inst_option_entry_order_record(inst_opt_ord_global_obj, sp_user_ses)
             else:
@@ -130,10 +140,12 @@ def create_inst_option_entry_order_record(inst_opt_ord_global_obj, sp_user_ses):
     quote_info = sp_user_ses.quotes({"symbols": trade_ready_inst_name})['d'][0]['v']
     inst_last_record_dir = inst_opt_ord_global_obj['inst_mod_str_gen_ord_flt_exit_'].iloc[-1]['inst_entry_type']
     inst_option_fil_df = read_instrument_tokens(inst_name_split, quote_info, inst_last_record_dir, inst_name_exh)
-    default_time_frame = get_option_direction(inst_option_fil_df, sp_user_ses)
-    inst_opt_ord_global_obj['direction'] = get_option_direction_df(default_time_frame)
-    inst_opt_ord_global_obj['inst_option_fil_df'] = inst_option_fil_df
-    inst_model_str_opt_ord_file_entry_ops(inst_opt_ord_global_obj, sp_user_ses)
+    sym_ticker = inst_option_fil_df.iloc[-1]['Symbol ticker']
+    default_time_frame = get_option_direction(sym_ticker, sp_user_ses)
+    default_time_frame = inst_opt_ord_str(default_time_frame)
+    if default_time_frame.iloc[-1]['inst_opt_deci_mak'] == 'up_entry':
+        inst_opt_ord_global_obj['inst_option_fil_df'] = inst_option_fil_df
+        inst_model_str_opt_ord_file_entry_ops(inst_opt_ord_global_obj, sp_user_ses)
 
 
 def inst_model_str_opt_ord_file_exit_ops(inst_opt_ord_global_obj, sp_user_ses):
@@ -169,12 +181,14 @@ def inst_model_str_opt_ord_file_entry_ops(inst_opt_ord_global_obj, sp_user_ses):
     strategy_name = inst_opt_ord_global_obj['strategy_name']
     if path.exists(inst_opt_ord_global_obj['inst_mod_str_opt_ord_file_path']):
         inst_model_str_opt_ord_file_df = inst_opt_ord_global_obj['inst_model_str_opt_ord_file_df']
-    col_names = ['inst_order_gen_date_time', 'inst_date', 'inst_name', 'inst_opt_sym_name', 'inst_entry_type', 'inst_entry_qty',
+    col_names = ['inst_order_gen_date_time', 'inst_date', 'inst_name', 'inst_opt_sym_name', 'inst_entry_type',
+                 'inst_entry_qty',
                  'inst_entry_price', 'inst_option_entry_type', 'inst_option_entry_price', 'inst_option_entry_time',
                  'inst_exit_type', 'inst_exit_qty', 'inst_exit_price', 'inst_option_exit_type',
                  'inst_option_exit_price', 'inst_option_exit_time', 'inst_option_profit', 'strategy_name']
     val_names = [[gen_str_fil_rec.inst_order_gen_date_time, gen_str_fil_rec.inst_date, gen_str_fil_rec.inst_name,
-                  inst_opt_sym_name, gen_str_fil_rec.inst_entry_type, gen_str_fil_rec.inst_entry_qty, gen_str_fil_rec.inst_entry_price,
+                  inst_opt_sym_name, gen_str_fil_rec.inst_entry_type, gen_str_fil_rec.inst_entry_qty,
+                  gen_str_fil_rec.inst_entry_price,
                   inst_option_entry_type, inst_option_entry_price, inst_option_entry_time, np.nan, np.nan, np.nan,
                   np.nan, np.nan, np.nan, np.nan, strategy_name]]
     inst_opt_ord_new = pd.DataFrame(val_names, columns=col_names)
@@ -210,11 +224,12 @@ def get_option_direction(instrument_details, sp_user_ses):
     try:
         from_date = (date.today()) - timedelta(days=5)
         to_date = date.today()
-        tick = instrument_details['Symbol ticker'].values[0]
+        tick = instrument_details
         response = download_data(tick, '5', from_date, to_date, sp_user_ses)
         df = pd.DataFrame(response['candles'], columns=['date', 'open', 'high', 'low', 'close', 'volume'])
         df['date'] = (pd.to_datetime(df['date'], unit='s')).dt.tz_localize('utc').dt.tz_convert('Asia/kolkata')
-        direction = get_super_trend_results(df, 7, 1)
+        # direction = get_super_trend_results(df, 7, 1)
+        direction = df
         cus_logger.info("Last Record From new data set %s", str(pd.to_datetime(df.iloc[-1].date).time()))
     except Exception as exceptionMessage:
         raise exceptionMessage
@@ -244,3 +259,43 @@ def get_super_trend_results(raw_df_date, period, multiplier):
     default_time_frame = super_trend(df_bk_converted_data, period, multiplier)
     default_time_frame['date'] = pd.to_datetime(default_time_frame['date'])
     return default_time_frame
+
+
+def inst_opt_ord_str(raw_df_date):
+    macd_cal_data = calculate_macd(raw_df_date)
+    rsi_cal_data = calculate_rsi(macd_cal_data, period=14)
+    super_trend_cal_data = calculate_super_trend(rsi_cal_data, 7, 1)
+    super_trend_cal_data['inst_opt_deci_mak'] = np.nan
+    super_trend_cal_data['date_on_str'] = super_trend_cal_data['date'].dt.date
+    inst_days = super_trend_cal_data.date_on_str.unique()
+    for inst_day in inst_days:
+        inst_day_data = super_trend_cal_data[super_trend_cal_data.date_on_str == inst_day]
+        inst_day_skip = inst_day_data[inst_day_data.Signal == 0]
+        inst_flt_indi_day_data = inst_day_data
+        new_orders = pd.DataFrame()
+        new_updated_orders = pd.DataFrame()
+        if inst_day_skip.shape[0] == 0:
+            exit_time_ = exit_entry_time("NSE:instrument_name")
+            for inst_flt_indi_day_rec_index, inst_flt_indi_day_rec in inst_flt_indi_day_data.iterrows():
+                cur_rec_time = inst_flt_indi_day_rec.date.time()
+                current_time = cur_rec_time
+                exit_time = datetime.strptime(exit_time_, '%H:%M:%S').time()
+                if inst_flt_indi_day_rec['In Uptrend'] and new_orders.size == 0:
+                    row_number_update_ = super_trend_cal_data.loc[[inst_flt_indi_day_rec_index]]
+                    new_orders = pd.concat([new_orders, row_number_update_], ignore_index=True)
+                elif new_orders.shape[0] > 0:
+                    if inst_flt_indi_day_rec.close > new_orders.iloc[-1].close:
+                        if new_updated_orders.shape[0] == 0:
+                            row_number_update_ = super_trend_cal_data.loc[[inst_flt_indi_day_rec_index]]
+                            new_updated_orders = pd.concat([new_updated_orders, row_number_update_], ignore_index=True)
+                        super_trend_cal_data.loc[inst_flt_indi_day_rec_index, 'inst_opt_deci_mak'] = 'up_entry'
+                    elif inst_flt_indi_day_rec.close < new_orders.iloc[-1]['Lower Band']:
+                        new_orders = pd.DataFrame()
+                        new_updated_orders = pd.DataFrame()
+                    elif new_updated_orders.shape[0] > 0:
+                        super_trend_cal_data.loc[inst_flt_indi_day_rec_index, 'inst_opt_deci_mak'] = 'up_entry'
+                if current_time >= exit_time:
+                    super_trend_cal_data.loc[inst_flt_indi_day_rec_index, 'inst_opt_deci_mak'] = np.nan
+
+    return super_trend_cal_data
+

@@ -72,6 +72,7 @@ def execute_strategy_programs():
         download_write_instrument_tokens()
         calculate_expiry_date()
         ticks_indi_file_update()
+        ticks_indi_file_qty_update()
         remove_create_dir()
 
     strategy_execution_steps(auto_inputs)

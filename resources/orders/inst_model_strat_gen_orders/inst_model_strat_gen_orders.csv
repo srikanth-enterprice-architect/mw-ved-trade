@@ -1,3 +1,10 @@
 inst_order_gen_date_time,inst_date,inst_name,inst_entry_type,inst_entry_time,inst_entry_qty,inst_entry_price,inst_exit_type,inst_exit_time,inst_exit_price,inst_exit_qty,inst_profit,strategy_name
-2024-08-30 09:30:00+05:30,2024-08-30,NSE:MIDCPNIFTY-INDEX,down_entry,09:35:05,75,13121.1,down_exit,15:10:05,13151.85,75.0,30.75,day_open_strategy
-2024-08-30 12:00:00+05:30,2024-08-30,NSE:NIFTYBANK-INDEX,down_entry,12:05:05,15,51425.8,down_exit,15:10:05,51351.15,15.0,-74.65000000000146,day_open_strategy
+2024-09-10 09:45:00+05:30,2024-09-10,BSE:SENSEX-INDEX,down_entry,09:50:04,10,81558.91,down_exit,15:10:05,81904.87,10.0,345.95999999999185,day_open_strategy
+2024-09-10 10:00:00+05:30,2024-09-10,NSE:MIDCPNIFTY-INDEX,down_entry,10:05:05,50,13112.4,down_exit,15:10:05,13178.15,50.0,65.75,day_open_strategy
+2024-09-10 11:05:00+05:30,2024-09-10,NSE:NIFTY50-INDEX,down_entry,11:10:04,25,24955.0,down_exit,15:10:05,25033.2,25.0,78.20000000000073,day_open_strategy
+2024-09-11 09:25:00+05:30,2024-09-11,BSE:BANKEX-INDEX,up_entry,09:30:06,15,57918.95,up_exit,15:10:08,57843.39,15.0,-75.55999999999767,day_open_strategy
+2024-09-13 11:40:00+05:30,2024-09-13,NSE:MIDCPNIFTY-INDEX,down_entry,11:45:05,50,13335.3,down_exit,15:10:06,13351.05,50.0,15.75,day_open_strategy
+2024-09-16 10:05:00+05:30,2024-09-16,NSE:FINNIFTY-INDEX,down_entry,10:10:04,25,24019.25,down_exit,15:10:05,23986.45,25.0,-32.79999999999927,day_open_strategy
+2024-09-17 09:25:00+05:30,2024-09-17,NSE:MIDCPNIFTY-INDEX,up_entry,09:30:08,50,13258.5,,,,,,day_open_strategy
+2024-09-17 09:25:00+05:30,2024-09-17,NSE:NIFTY50-INDEX,up_entry,09:30:08,25,25382.95,,,,,,day_open_strategy
+2024-09-17 09:25:00+05:30,2024-09-17,BSE:SENSEX-INDEX,up_entry,09:30:08,10,82939.16,,,,,,day_open_strategy
